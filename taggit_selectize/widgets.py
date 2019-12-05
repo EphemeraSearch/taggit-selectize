@@ -1,5 +1,4 @@
 from django import forms
-from django.utils import six
 from django.utils.safestring import mark_safe
 from taggit.utils import edit_string_for_tags
 
@@ -19,7 +18,7 @@ def bool_or_str(val):
 
 class TagSelectize(forms.TextInput):
     def render(self, name, value, attrs=None, renderer=None):
-        if value is not None and not isinstance(value, six.string_types):
+        if value is not None and not isinstance(value, str):
             if isinstance(value, list):
                 # django-taggit 1.0 and up
                 value = edit_string_for_tags(value)

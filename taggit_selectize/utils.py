@@ -30,15 +30,15 @@ def parse_tags(tagstring):
     i = iter(tagstring)
     try:
         while True:
-            c = six.next(i)
+            c = next(i)
             if c == '"':
                 if buffer:
                     to_be_split.append(''.join(buffer))
                     buffer = []
-                c = six.next(i)
+                c = next(i)
                 while c != '"':
                     buffer.append(c)
-                    c = six.next(i)
+                    c = next(i)
                 if buffer:
                     word = ''.join(buffer).strip()
                     if word:
