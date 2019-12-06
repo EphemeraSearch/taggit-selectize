@@ -1,8 +1,10 @@
 # Miscellaneous utilities
-from django.utils import six
+import six
 from django.utils.encoding import force_text
 from taggit.utils import split_strip
+
 from .conf import settings
+
 
 def parse_tags(tagstring):
     """
@@ -30,17 +32,17 @@ def parse_tags(tagstring):
     i = iter(tagstring)
     try:
         while True:
-            c = next(i)
+            c = six.next(i)
             if c == '"':
                 if buffer:
-                    to_be_split.append(''.join(buffer))
+                    to_be_split.append("".join(buffer))
                     buffer = []
-                c = next(i)
+                c = six.next(i)
                 while c != '"':
                     buffer.append(c)
-                    c = next(i)
+                    c = six.next(i)
                 if buffer:
-                    word = ''.join(buffer).strip()
+                    word = "".join(buffer).strip()
                     if word:
                         words.append(word)
                     buffer = []
@@ -50,10 +52,10 @@ def parse_tags(tagstring):
         # If we were parsing an open quote which was never closed treat
         # the buffer as unquoted.
         if buffer:
-            to_be_split.append(''.join(buffer))
+            to_be_split.append("".join(buffer))
     if to_be_split:
         for chunk in to_be_split:
-            words.extend(split_strip(chunk, settings.TAGGIT_SELECTIZE['DELIMITER']))
+            words.extend(split_strip(chunk, settings.TAGGIT_SELECTIZE["DELIMITER"]))
     words = list(set(words))
     words.sort()
     return words
@@ -74,10 +76,10 @@ def join_tags(tags):
     <http://django-tagging.googlecode.com/>`_
     """
     names = []
-    delimiter = settings.TAGGIT_SELECTIZE['DELIMITER']
+    delimiter = settings.TAGGIT_SELECTIZE["DELIMITER"]
     for tag in tags:
         name = tag.name
-        if delimiter in name or ' ' in name:
+        if delimiter in name or " " in name:
             names.append('"%s"' % name)
         else:
             names.append(name)
